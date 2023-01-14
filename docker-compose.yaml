@@ -1,0 +1,15 @@
+version: "3"
+services:
+  redisDocker:
+    image: redis:7.0.4-alpine
+    restart: always
+    container_name: at_redis_docker
+    # conf 配置，data 是 redis 自动生成的。
+    volumes:
+      - ./redis.conf:/etc/redis/redis.conf
+      - ./redis:/data
+    ports:
+      # REDIS_EXTERNAL_PORT 供宿主机访问， REDIS_INTERNAL_PORT 供容器访问
+      - $REDIS_EXTERNAL_PORT:$REDIS_INTERNAL_PORT
+    privileged: true
+    command: redis-server /etc/redis/redis.conf
